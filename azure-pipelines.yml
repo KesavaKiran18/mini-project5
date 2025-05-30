@@ -4,38 +4,18 @@ trigger:
       - main
 
 pool:
-  name: Default  # Your self-hosted agent pool
+  name: Default  # This tells Azure to use your own VM
 
 steps:
-
-# Step 1: Checkout code
-- task: Checkout@1
-
-# Step 2: Install Node.js
-- task: UseNode@1
+- task: NodeTool@0
   inputs:
-    version: '18.x'
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
 
-# Step 3: Install NPM dependencies
 - script: |
     npm install
   displayName: 'Install dependencies'
 
-# Step 4: Build Docker image
-- task: Docker@2
-  inputs:
-    containerRegistry: 'MyDockerRegistry' # Optional if pushing to registry
-    repository: 'myapp'
-    command: 'build'
-    Dockerfile: '**/Dockerfile'
-    tags: |
-      $(Build.BuildId)
-
-# Step 5: SSH Deploy (Optional, only if needed)
-# - task: SSH@0
-#   inputs:
-#     sshEndpoint: 'MySSHConnection'
-#     runOptions: 'commands'
-#     commands: |
-#       docker run -d -p 3000:3000 myapp:$(Build.BuildId)
-#     failOnStdErr: true
+- script: |
+    echo "Build step successful"
+  displayName: 'Build Step'
