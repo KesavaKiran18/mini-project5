@@ -16,6 +16,10 @@ steps:
     npm install
   displayName: 'Install dependencies'
 
-- script: |
-    echo "Build step successful"
-  displayName: 'Build Step'
+- task: Docker@2
+  displayName: 'Build Docker Image'
+  inputs:
+    command: build
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      mini-project5:$(Build.BuildId)
