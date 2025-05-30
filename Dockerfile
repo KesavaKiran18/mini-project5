@@ -1,7 +1,18 @@
+# Use official Node.js LTS image
 FROM node:18
-WORKDIR /app
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
+
+# Copy the rest of the app
 COPY . .
+
+# Expose the app port
 EXPOSE 3000
-CMD ["node", "app.js"]
+
+# Start the app
+CMD ["node", "index.js"]
